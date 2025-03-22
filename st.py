@@ -111,9 +111,9 @@ if not df.empty and df.columns.any():
         "ВЕЛИКА БЕРЕЗОВИЦЯ": "селище Велика Березовиця,",
         "ВИШНІВЕЦЬ": "селище Вишнівець,",
         "ГРИМАЙЛІВ": "смт.Гримайлів,",
-        "М. КОПИЧИНЦІ": "м.Копиченці,",
+        "М. КОПИЧИНЦІ": "м.Копичинці,",
         "ЗБОРІВ": "м.Зборів,",
-        "КОПИЧИНЦІ": "м.Копиченці,",
+        "КОПИЧИНЦІ": "м.Копичинці,",
         "МЕЛЬНИЦЯ-ПОДІЛЬСЬКА": "м.Мельниця-Подільська,",
         "НАГІРЯНКА": "село Нагірянка,",
         "ПІДГАЙЦІ": "м. Підгайці,",
@@ -175,6 +175,11 @@ if not df.empty and df.columns.any():
     with col1:
         st.write("Загальна продана кількість")
         st.write(ternopil.groupby("Найменування")["Кількість"].sum())
+        plt.bar(ternopil["Найменування"], ternopil["Кількість"], color="skyblue")
+        plt.title("Sales by Region")  # Title of the graph
+        plt.xlabel("Regions")  # X-axis label
+        plt.ylabel("Sales")  # Y-axis label
+        plt.show()
     with col2:
         st.write("Таблиця з даними")
         st.write(ternopil)
