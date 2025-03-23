@@ -169,7 +169,7 @@ if not df.empty and df.columns.any():
     def plot_sales_by_region(data):
         # Встановлюємо стиль ggplot
         plt.style.use("ggplot")
-        plt.figure(figsize=(6, 12))
+        plt.figure(figsize=(6, 22))
 
         # Групуємо дані за "Найменування" та сумуємо "Кількість"
         aggregated_data = data.groupby("Найменування")["Кількість"].sum().reset_index().sort_values(by="Кількість", ascending=False)
