@@ -168,7 +168,7 @@ if not df.empty and df.columns.any():
     # Функція для побудови горизонтального графіку продажів за регіонами
     def plot_sales_by_region(data):
         # Встановлюємо стиль ggplot
-        plt.style.use("ggplot")
+        plt.style.use("seaborn-v0_8-dark")
 
         # Групуємо дані за "Найменування" та сумуємо "Кількість"
         aggregated_data = data.groupby("Найменування")["Кількість"].sum().reset_index().sort_values(by="Кількість", ascending=False)
@@ -181,12 +181,12 @@ if not df.empty and df.columns.any():
         # Додаємо підписи значень біля стовпчиків
         for bar in bars:
             xval = bar.get_width()
-            ax.text(xval, bar.get_y() + bar.get_height()/2, int(xval), ha='left', va='center', fontsize=7)
+            ax.text(xval, bar.get_y() + bar.get_height()/2, int(xval), ha='left', va='center', fontsize=10)
 
         # Налаштовуємо підписи
         ax.set_title("Sales by Region")  # Title of the graph
-        ax.set_ylabel("Найменування", fontsize=10)  # Y-axis label
-        ax.set_xlabel("Кількість", fontsize=10)  # X-axis label
+        ax.set_ylabel("Найменування", fontsize=13)  # Y-axis label
+        ax.set_xlabel("Кількість", fontsize=13)  # X-axis label
         ax.invert_yaxis()  # Відобразити найбільші значення зверху
 
         # Виводимо графік
