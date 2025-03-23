@@ -219,8 +219,8 @@ if not df.empty and df.columns.any():
     else:
         filtered_pivot_ternipil_street = pivot_ternopil_street
 
-    st.markdown("<h3 style='color: #00FFFF; font-weight: bold; text-align: center;'>Зведена таблиця по містах та вулицях</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='color: #1C621B; font-weight: bold; text-align: center;'>Зведена таблиця по містах та вулицях</h3>", unsafe_allow_html=True)
     st.write(filtered_pivot_ternipil_street)
     pivot_ternopil = pd.pivot_table(ternopil, values="Кількість", index="Факт.місто", columns="Найменування", aggfunc="sum")
-    st.markdown("<h3 style='color: #00FFFF; font-weight: bold; text-align: center;'>Зведена таблиця по містах</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='color: #1C621B; font-weight: bold; text-align: center;'>Зведена таблиця по містах</h3>", unsafe_allow_html=True)
     st.write(pivot_ternopil)
