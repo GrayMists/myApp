@@ -169,13 +169,13 @@ if not df.empty and df.columns.any():
     def plot_sales_by_region(data):
         # Встановлюємо стиль ggplot
         plt.style.use("ggplot")
-        plt.figure(figsize=(3, 22))
 
         # Групуємо дані за "Найменування" та сумуємо "Кількість"
         aggregated_data = data.groupby("Найменування")["Кількість"].sum().reset_index().sort_values(by="Кількість", ascending=False)
 
-        # Створюємо горизонтальний графік
-        fig, ax = plt.subplots()
+        # Створюємо горизонтальний графік із заданим розміром
+        fig, ax = plt.subplots(figsize=(10, 20))  # Ширина 10, висота 20
+
         bars = ax.barh(aggregated_data["Найменування"], aggregated_data["Кількість"], color="skyblue")
 
         # Додаємо підписи значень біля стовпчиків
@@ -185,8 +185,8 @@ if not df.empty and df.columns.any():
 
         # Налаштовуємо підписи
         ax.set_title("Sales by Region")  # Title of the graph
-        ax.set_ylabel("Найменування", fontsize=8)  # Y-axis label
-        ax.set_xlabel("Кількість", fontsize=8)  # X-axis label
+        ax.set_ylabel("Найменування", fontsize=10)  # Y-axis label
+        ax.set_xlabel("Кількість", fontsize=10)  # X-axis label
         ax.invert_yaxis()  # Відобразити найбільші значення зверху
 
         # Виводимо графік
@@ -204,6 +204,8 @@ if not df.empty and df.columns.any():
     
     st.write(plot_sales_by_region(ternopil))
 
+    # Створюємо список унікальних міст з колонки "Факт.місто"
+    cities = ternopil["Факт.місто"].unique()
 
     # Створення зведеної таблиці по місту та вулицях
     pivot_ternopil_street = pd.pivot_table(ternopil, values="Кількість", index=["Факт.місто", "Вулиця"], columns="Найменування", aggfunc="sum")
