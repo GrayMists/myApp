@@ -183,7 +183,7 @@ if not df.empty and df.columns.any():
             yval = bar.get_height()
             ax.text(bar.get_x() + bar.get_width()/2, yval, int(yval), ha='center', va='bottom', fontsize=5)
 
-
+        ax.style.use("ggplot")
         # Налаштовуємо підписи
         ax.set_title("Sales by Region")  # Title of the graph
         ax.set_ylabel("Кількість", fontsize=8)        # Y-axis label
