@@ -180,9 +180,9 @@ if not df.empty and df.columns.any():
 
         # Налаштовуємо підписи
         ax.set_title("Sales by Region")  # Title of the graph
-        ax.set_xlabel("Item Names")       # X-axis label
-        ax.set_ylabel("Total Sales")        # Y-axis label
-        ax.set_xticklabels(aggregated_data["Найменування"], rotation=90)  # Повертаємо підписи для кращого вигляду
+        ax.set_xlabel("Найменування", fontsize=12)       # X-axis label
+        ax.set_ylabel("Кількість")        # Y-axis label
+        ax.set_xticklabels(aggregated_data["Найменування"], rotation=90, fontsize=12)  # Повертаємо підписи для кращого вигляду
 
         # Виводимо графік
         st.pyplot(fig)
