@@ -176,7 +176,7 @@ if not df.empty and df.columns.any():
         aggregated_data = data.groupby("Найменування")["Кількість"].sum().reset_index().sort_values(by="Кількість", ascending=False)
                 # Створюємо графік
         fig, ax = plt.subplots()
-        bars = ax.bar(aggregated_data["Найменування"], aggregated_data["Кількість"], color="skyblue")
+        bars = ax.bar(aggregated_data["Кількість"], aggregated_data["Найменування"], color="skyblue")
 
         # Додаємо підписи значень над стовпчиками
         for bar in bars:
