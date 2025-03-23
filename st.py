@@ -193,11 +193,11 @@ if not df.empty and df.columns.any():
     with col1:
         st.write("Загальна продана кількість")
         st.write(ternopil.groupby("Найменування")["Кількість"].sum())
-        st.write(plot_sales_by_region(ternopil))
+        
     with col2:
         st.write("Таблиця з даними")
         st.write(ternopil)
-
+        st.write(plot_sales_by_region(ternopil))
 
     # Створюємо список унікальних міст з колонки "Факт.місто"
     cities = ternopil["Факт.місто"].unique()
