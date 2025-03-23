@@ -181,7 +181,7 @@ if not df.empty and df.columns.any():
         # Додаємо підписи значень над стовпчиками
         for bar in bars:
             yval = bar.get_height()
-            ax.text(bar.get_x() + bar.get_width()/2, yval, int(yval), ha='center', va='bottom', fontsize=7)
+            ax.text(bar.get_x() + bar.get_width()/2, yval, int(yval), ha='center', va='bottom', fontsize=4)
 
 
         # Налаштовуємо підписи
