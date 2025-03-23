@@ -176,7 +176,13 @@ if not df.empty and df.columns.any():
         aggregated_data = data.groupby("Найменування")["Кількість"].sum().reset_index().sort_values(by="Кількість", ascending=False)
                 # Створюємо графік
         fig, ax = plt.subplots()
-        ax.bar(aggregated_data["Найменування"], aggregated_data["Кількість"], color="skyblue")
+        bar = ax.bar(aggregated_data["Найменування"], aggregated_data["Кількість"], color="skyblue")
+
+        # Додаємо підписи значень над стовпчиками
+        for bar in bars:
+            yval = bar.get_height()
+            ax.text(bar.get_x() + bar.get_width()/2, yval, int(yval), ha='center', va='bottom', fontsize=7)
+
 
         # Налаштовуємо підписи
         ax.set_title("Sales by Region")  # Title of the graph
