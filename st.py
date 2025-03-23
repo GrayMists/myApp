@@ -176,7 +176,7 @@ if not df.empty and df.columns.any():
         st.write("Загальна продана кількість")
         st.write(ternopil.groupby("Найменування")["Кількість"].sum())
         fig, ax = plt.subplots()
-        ax.bar(ternopil["Найменування"], ternopil["Кількість"], color="skyblue")
+        ax.bar(ternopil["Кількість"].sum(), ternopil["Найменування"], color="skyblue")
         ax.set_title("Sales by Region")  # Title of the graph
         ax.set_xlabel("Regions")  # X-axis label
         ax.set_ylabel("Sales")  # Y-axis label
