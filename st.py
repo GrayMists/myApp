@@ -173,7 +173,7 @@ if not df.empty and df.columns.any():
     # Функція для побудови графіку продажів за регіонами
     def plot_sales_by_region(data):
     # Групуємо дані за "Найменування" та сумуємо "Кількість"
-        aggregated_data = data.groupby("Найменування")["Кількість"].sum().reset_index()
+        aggregated_data = data.groupby("Найменування")["Кількість"].sum().reset_index().sort_values(by="Кількість", ascending=False)
                 # Створюємо графік
         fig, ax = plt.subplots()
         ax.bar(aggregated_data["Найменування"], aggregated_data["Кількість"], color="skyblue")
