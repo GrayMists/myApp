@@ -48,8 +48,6 @@ if not df.empty and df.columns.any():
     #видалаємо непотрібні колонки
     df = df.drop(columns=["Adding", "ЄДРПОУ", "Юр.адресаклієнта"], errors="ignore")
 
-
-
     # Очищуємо та перетворюємо колонку "Кількість" (якщо вона є)
     if "Кількість" in df.columns:
         df["Кількість"] = df["Кількість"].astype(str).str.strip().str.replace(r"[^\d\-]", "", regex=True)
@@ -60,7 +58,6 @@ if not df.empty and df.columns.any():
 
     # Фільтр бази по місту Тернопіль
     ternopil = df[df["Регіон"] == "24. Тернопіль"].reset_index(drop=True)
-
 
     remove_values = [
         "ТЕРНОПІЛЬСЬКА ОБЛ., ", "Тернопільська обл., ", "48702, ", "46008, ", "48201, ", "48430 ",
@@ -130,9 +127,7 @@ if not df.empty and df.columns.any():
         "КОЦЮБИНЦІ": "с.Коцюбинці,",
         "МИШКОВИЧІ": "с.Мишковичі,",
         "НОВОСІЛКА": "с.Новосілка,"
-
     }
-
 
     # Функція заміни, що використовує словник
     def replacement(text):
@@ -145,6 +140,7 @@ if not df.empty and df.columns.any():
     # Застосовуємо функцію до кожного рядка
     ternopil["Факт.адресадоставки"] = ternopil["Факт.адресадоставки"].apply(replacement).replace(",,",",")
     ternopil["Факт.адресадоставки"] = ternopil["Факт.адресадоставки"].apply(lambda x: x.replace(",,", ",") if isinstance(x, str) else x)
+    
     def remove_spaces(text):
         if isinstance(text, str):  # Перевіряємо, чи це рядок
             return "".join(char for char in text if char != " ")
@@ -158,7 +154,6 @@ if not df.empty and df.columns.any():
         # Повертаємо текст до коми
         return part_before_comma
 
-
     # Застосовуємо функцію до колонки
     ternopil["Факт.місто"] = ternopil['Факт.адресадоставки'].apply(extract_part)
     ternopil["Факт.місто"] = ternopil["Факт.місто"].apply(remove_spaces)
@@ -170,29 +165,31 @@ if not df.empty and df.columns.any():
     ternopil["Вулиця"] = ternopil['Факт.адресадоставки'].apply(extract_street)
     ternopil["Вулиця"] = ternopil["Вулиця"].apply(remove_spaces)
 
-    # Функція для побудови графіку продажів за регіонами
+    # Функція для побудови горизонтального графіку продажів за регіонами
     def plot_sales_by_region(data):
-    # Групуємо дані за "Найменування" та сумуємо "Кількість"
+        # Встановлюємо стиль ggplot
+        plt.style.use("ggplot")
+
+        # Групуємо дані за "Найменування" та сумуємо "Кількість"
         aggregated_data = data.groupby("Найменування")["Кількість"].sum().reset_index().sort_values(by="Кількість", ascending=False)
-                # Створюємо графік
+
+        # Створюємо горизонтальний графік
         fig, ax = plt.subplots()
-        bars = ax.bar(aggregated_data["Найменування"], aggregated_data["Кількість"], color="skyblue")
+        bars = ax.barh(aggregated_data["Найменування"], aggregated_data["Кількість"], color="skyblue")
 
-        # Додаємо підписи значень над стовпчиками
+        # Додаємо підписи значень біля стовпчиків
         for bar in bars:
-            yval = bar.get_height()
-            ax.text(bar.get_x() + bar.get_width()/2, yval, int(yval), ha='center', va='bottom', fontsize=5)
+            xval = bar.get_width()
+            ax.text(xval, bar.get_y() + bar.get_height()/2, int(xval), ha='left', va='center', fontsize=7)
 
-        
         # Налаштовуємо підписи
         ax.set_title("Sales by Region")  # Title of the graph
-        ax.set_ylabel("Кількість", fontsize=8)        # Y-axis label
-        ax.set_xlabel("Найменування", fontsize=8)       # X-axis label
-        ax.set_xticklabels(aggregated_data["Найменування"], rotation=90, fontsize=7)  # Повертаємо підписи для кращого вигляду
+        ax.set_ylabel("Найменування", fontsize=8)  # Y-axis label
+        ax.set_xlabel("Кількість", fontsize=8)  # X-axis label
+        ax.invert_yaxis()  # Відобразити найбільші значення зверху
 
         # Виводимо графік
         st.pyplot(fig)
-
 
     col1, col2 = st.columns([1,4])
 
@@ -226,4 +223,3 @@ if not df.empty and df.columns.any():
     pivot_ternopil = pd.pivot_table(ternopil, values="Кількість", index="Факт.місто", columns="Найменування", aggfunc="sum")
     st.markdown("<h3 style='color: #00FFFF; font-weight: bold; text-align: center;'>Зведена таблиця по містах</h3>", unsafe_allow_html=True)
     st.write(pivot_ternopil)
-
