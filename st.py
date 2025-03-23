@@ -193,7 +193,7 @@ if not df.empty and df.columns.any():
     with col1:
         st.write("Загальна продана кількість")
         st.write(ternopil.groupby("Найменування")["Кількість"].sum())
-        plot_sales_by_region(ternopil)
+        st.write(plot_sales_by_region(ternopil))
     with col2:
         st.write("Таблиця з даними")
         st.write(ternopil)
