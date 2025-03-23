@@ -175,11 +175,12 @@ if not df.empty and df.columns.any():
     with col1:
         st.write("Загальна продана кількість")
         st.write(ternopil.groupby("Найменування")["Кількість"].sum())
-        st.write(plt.bar(ternopil["Найменування"], ternopil["Кількість"], color="skyblue"))
-        plt.title("Sales by Region")  # Title of the graph
-        plt.xlabel("Regions")  # X-axis label
-        plt.ylabel("Sales")  # Y-axis label
-        plt.show()
+        fig, ax = plt.subplots()
+        ax.bar(ternopil["Найменування"], ternopil["Кількість"], color="skyblue")
+        ax.set_title("Sales by Region")  # Title of the graph
+        ax.set_xlabel("Regions")  # X-axis label
+        ax.set_ylabel("Sales")  # Y-axis label
+        st.pyplot(fig)
     with col2:
         st.write("Таблиця з даними")
         st.write(ternopil)
