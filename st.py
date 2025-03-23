@@ -181,13 +181,13 @@ if not df.empty and df.columns.any():
         # Додаємо підписи значень над стовпчиками
         for bar in bars:
             yval = bar.get_height()
-            ax.text(bar.get_x() + bar.get_width()/2, yval, int(yval), ha='center', va='bottom', fontsize=6)
+            ax.text(bar.get_x() + bar.get_width()/2, yval, int(yval), ha='center', va='bottom', fontsize=5)
 
 
         # Налаштовуємо підписи
         ax.set_title("Sales by Region")  # Title of the graph
-        ax.set_ylabel("Найменування", fontsize=8)        # Y-axis label
-        ax.set_xlabel("Кількість", fontsize=8)       # X-axis label
+        ax.set_ylabel("Кількість", fontsize=8)        # Y-axis label
+        ax.set_xlabel("Найменування", fontsize=8)       # X-axis label
         ax.set_xticklabels(aggregated_data["Найменування"], rotation=90, fontsize=7)  # Повертаємо підписи для кращого вигляду
 
         # Виводимо графік
