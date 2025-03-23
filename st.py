@@ -170,12 +170,30 @@ if not df.empty and df.columns.any():
     ternopil["Вулиця"] = ternopil['Факт.адресадоставки'].apply(extract_street)
     ternopil["Вулиця"] = ternopil["Вулиця"].apply(remove_spaces)
 
+    # Функція для побудови графіку продажів за регіонами
+    def plot_sales_by_region(data):
+    # Групуємо дані за "Найменування" та сумуємо "Кількість"
+        aggregated_data = data.groupby("Найменування")["Кількість"].sum().reset_index()
+                # Створюємо графік
+        fig, ax = plt.subplots()
+        ax.bar(aggregated_data["Найменування"], aggregated_data["Кількість"], color="skyblue")
+
+        # Налаштовуємо підписи
+        ax.set_title("Sales by Region")  # Title of the graph
+        ax.set_xlabel("Item Names")       # X-axis label
+        ax.set_ylabel("Total Sales")        # Y-axis label
+        ax.set_xticklabels(aggregated_data["Найменування"], rotation=90)  # Повертаємо підписи для кращого вигляду
+
+        # Виводимо графік
+        st.pyplot(fig)
+
+
     col1, col2 = st.columns([1,4])
 
     with col1:
         st.write("Загальна продана кількість")
         st.write(ternopil.groupby("Найменування")["Кількість"].sum())
-        
+        plot_sales_by_region(ternopil)
     with col2:
         st.write("Таблиця з даними")
         st.write(ternopil)
