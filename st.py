@@ -181,7 +181,7 @@ if not df.empty and df.columns.any():
         # Налаштовуємо підписи
         ax.set_title("Sales by Region")  # Title of the graph
         ax.set_xlabel("Найменування", fontsize=8)       # X-axis label
-        ax.set_ylabel("Кількість")        # Y-axis label
+        ax.set_ylabel("Кількість", fontsize=8)        # Y-axis label
         ax.set_xticklabels(aggregated_data["Найменування"], rotation=90, fontsize=7)  # Повертаємо підписи для кращого вигляду
 
         # Виводимо графік
@@ -197,7 +197,8 @@ if not df.empty and df.columns.any():
     with col2:
         st.write("Таблиця з даними")
         st.write(ternopil)
-        st.write(plot_sales_by_region(ternopil))
+    
+    st.write(plot_sales_by_region(ternopil))
 
     # Створюємо список унікальних міст з колонки "Факт.місто"
     cities = ternopil["Факт.місто"].unique()
