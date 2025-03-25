@@ -184,7 +184,7 @@ if not df.empty and df.columns.any():
             ax.text(xval, bar.get_y() + bar.get_height()/2, int(xval), ha='left', va='center', fontsize=10)
 
         # Налаштовуємо підписи
-        ax.set_title("Sales by Region")  # Title of the graph
+        ax.set_title("Продажі")  # Title of the graph
         ax.set_ylabel("Найменування", fontsize=13)  # Y-axis label
         ax.set_xlabel("Кількість", fontsize=13)  # X-axis label
         ax.invert_yaxis()  # Відобразити найбільші значення зверху
