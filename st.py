@@ -174,7 +174,7 @@ if not df.empty and df.columns.any():
         aggregated_data = data.groupby("Найменування")["Кількість"].sum().reset_index().sort_values(by="Кількість", ascending=False)
 
         # Створюємо горизонтальний графік із заданим розміром
-        fig, ax = plt.subplots(figsize=(3, 10))  # Ширина 10, висота 20
+        fig, ax = plt.subplots(figsize=(3, 10))  
 
         bars = ax.barh(aggregated_data["Найменування"], aggregated_data["Кількість"])
 
@@ -200,9 +200,10 @@ if not df.empty and df.columns.any():
         
     with col2:
         st.write("Таблиця з даними")
-        st.write(ternopil)
+        #st.write(ternopil)
+        st.write(plot_sales_by_region(ternopil))
     
-    st.write(plot_sales_by_region(ternopil))
+    
 
     # Створюємо список унікальних міст з колонки "Факт.місто"
     cities = ternopil["Факт.місто"].unique()
