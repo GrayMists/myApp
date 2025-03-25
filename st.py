@@ -185,8 +185,8 @@ if not df.empty and df.columns.any():
 
         # Налаштовуємо підписи
         ax.set_title("Продажі")  # Title of the graph
-        ax.set_ylabel("Найменування", fontsize=13)  # Y-axis label
-        ax.set_xlabel("Кількість", fontsize=13)  # X-axis label
+        ax.set_ylabel("Найменування", fontsize=10)  # Y-axis label
+        ax.set_xlabel("Кількість", fontsize=10)  # X-axis label
         ax.invert_yaxis()  # Відобразити найбільші значення зверху
 
         # Виводимо графік
@@ -196,7 +196,7 @@ if not df.empty and df.columns.any():
 
     with col1:
         st.write("Загальна продана кількість")
-        st.write(ternopil.groupby("Найменування")["Кількість"].sum())
+        st.dataframe(ternopil.groupby("Найменування")["Кількість"].sum(), height=800, width=600)
         
     with col2:
         st.write("Таблиця з даними")
