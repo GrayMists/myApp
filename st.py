@@ -184,7 +184,7 @@ if not df.empty and df.columns.any():
         for bar in bars:
             xval = bar.get_width()
             yval = bar.get_y() + bar.get_height()
-            ax.text(xval / 2, yval, int(xval), ha='center', va='bottom', fontsize=6)
+            ax.text(xval / 2, yval, int(xval), ha='top', va='bottom', fontsize=6)
 
         # Налаштовуємо підписи
         ax.set_title("Продажі")  # Title of the graph
