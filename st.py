@@ -184,7 +184,7 @@ if not df.empty and df.columns.any():
         for bar in bars:
             xval = bar.get_width()
             yval = bar.get_y() + bar.get_height()
-            ax.text(xval / 2, yval, int(xval), ha='top', va='bottom', fontsize=6)
+            ax.text(xval / 2, yval, int(xval), ha='right', va='bottom', fontsize=6)
 
         # Налаштовуємо підписи
         ax.set_title("Продажі")  # Title of the graph
@@ -199,7 +199,7 @@ if not df.empty and df.columns.any():
 
     with col1:
         st.write("Загальна продана кількість")
-        st.dataframe(ternopil.groupby("Найменування")["Кількість"].sum(), height=800, width=600)
+        st.dataframe(ternopil.groupby("Найменування")["Кількість"].sum(), height=1200, width=600)
         
     with col2:
         st.write("Таблиця з даними")
