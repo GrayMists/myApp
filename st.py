@@ -169,26 +169,27 @@ if not df.empty and df.columns.any():
     def plot_sales_by_region(data):
         # Встановлюємо стиль ggplot
         plt.style.use("seaborn-v0_8-dark")
-        plt.rcParams.update({'font.size': 9})
+        plt.rcParams.update({'font.size': 8})
         # Групуємо дані за "Найменування" та сумуємо "Кількість"
         aggregated_data = data.groupby("Найменування")["Кількість"].sum().reset_index()
         aggregated_data["Найменування"] = aggregated_data["Найменування"].str[3:]
         
 
         # Створюємо горизонтальний графік із заданим розміром
-        fig, ax = plt.subplots(figsize=(3, 10))  
+        fig, ax = plt.subplots(figsize=(3, 8))  
 
         bars = ax.barh(aggregated_data["Найменування"], aggregated_data["Кількість"])
 
         # Додаємо підписи значень біля стовпчиків
         for bar in bars:
             xval = bar.get_width()
-            ax.text(xval, bar.get_y() + bar.get_height()/2, int(xval), ha='left', va='center', fontsize=10)
+            yval = bar.get_y() + bar.get_height()
+            ax.text(xval / 2, yval, int(xval), ha='center', va='bottom', fontsize=8)
 
         # Налаштовуємо підписи
         ax.set_title("Продажі")  # Title of the graph
-        ax.set_ylabel("Найменування", fontsize=10)  # Y-axis label
-        ax.set_xlabel("Кількість", fontsize=10)  # X-axis label
+        ax.set_ylabel("Найменування", fontsize=8)  # Y-axis label
+        ax.set_xlabel("Кількість", fontsize=8)  # X-axis label
         ax.invert_yaxis()  # Відобразити найбільші значення зверху
 
         # Виводимо графік
