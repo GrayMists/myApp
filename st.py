@@ -202,8 +202,6 @@ if not df.empty and df.columns.any():
         st.dataframe(ternopil.groupby("Найменування")["Кількість"].sum(), height=1200, width=600)
         
     with col2:
-        st.write(df["Вулиця"].unique())
-        #st.write(ternopil)
         st.write(plot_sales_by_region(ternopil))
     
     
@@ -228,3 +226,4 @@ if not df.empty and df.columns.any():
     pivot_ternopil = pd.pivot_table(ternopil, values="Кількість", index="Факт.місто", columns="Найменування", aggfunc="sum")
     st.markdown("<h3 style='color: #1C621B; font-weight: bold; text-align: center;'>Зведена таблиця по містах</h3>", unsafe_allow_html=True)
     st.write(pivot_ternopil)
+    st.write(df.head)
