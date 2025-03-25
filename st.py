@@ -136,7 +136,14 @@ if not df.empty and df.columns.any():
                 text = text.replace(key, value)  # Замінюємо ключ на значення
             return text.strip()  # Видаляємо зайві пробіли
         return text  # Якщо це не рядок, повертаємо його без змін
+    replace_street_dict = {
+        "вул.С.Бандери": ,
+        "вул.Бандери": ,
+        "вул.БандериС.": ,
+        "вул.ШевченкаТ.": ,
+        "вул.Шевченка": ,
 
+    }
     # Застосовуємо функцію до кожного рядка
     ternopil["Факт.адресадоставки"] = ternopil["Факт.адресадоставки"].apply(replacement).replace(",,",",")
     ternopil["Факт.адресадоставки"] = ternopil["Факт.адресадоставки"].apply(lambda x: x.replace(",,", ",") if isinstance(x, str) else x)
@@ -227,3 +234,4 @@ if not df.empty and df.columns.any():
     st.markdown("<h3 style='color: #1C621B; font-weight: bold; text-align: center;'>Зведена таблиця по містах</h3>", unsafe_allow_html=True)
     st.write(pivot_ternopil)
     st.write(ternopil["Вулиця"].unique())
+    st.write(ternopil)
