@@ -174,7 +174,7 @@ if not df.empty and df.columns.any():
         aggregated_data = data.groupby("Найменування")["Кількість"].sum().reset_index().sort_values(by="Кількість", ascending=False)
 
         # Створюємо горизонтальний графік із заданим розміром
-        fig, ax = plt.subplots(figsize=(10, 20))  # Ширина 10, висота 20
+        fig, ax = plt.subplots(figsize=(3, 10))  # Ширина 10, висота 20
 
         bars = ax.barh(aggregated_data["Найменування"], aggregated_data["Кількість"])
 
