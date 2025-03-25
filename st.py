@@ -169,9 +169,11 @@ if not df.empty and df.columns.any():
     def plot_sales_by_region(data):
         # Встановлюємо стиль ggplot
         plt.style.use("seaborn-v0_8-dark")
-
+        plt.rcParams.update({'font.size': 9})
         # Групуємо дані за "Найменування" та сумуємо "Кількість"
-        aggregated_data = data.groupby("Найменування")["Кількість"].sum().reset_index().sort_values(by="Кількість", ascending=False)
+        aggregated_data = data.groupby("Найменування")["Кількість"].sum().reset_index()
+        aggregated_data["Найменування"] = aggregated_data["Найменування"].str[3:]
+        
 
         # Створюємо горизонтальний графік із заданим розміром
         fig, ax = plt.subplots(figsize=(3, 10))  
