@@ -170,7 +170,7 @@ if not df.empty and df.columns.any():
         parts = address_street.split(',')
         return parts[1].strip() if len(parts) > 1 else ""  # Перевіряємо, чи є хоча б 2 частини
     
-    ternopil['Факт.адресадоставки'] = ternopil['Факт.адресадоставки'].apply(replacement_street).replace(",,",",")
+    ternopil['Факт.адресадоставки'] = ternopil['Факт.адресадоставки'].apply(remove_spaces).apply(replacement_street).replace(",,",",")
     ternopil["Вулиця"] = ternopil['Факт.адресадоставки'].apply(extract_street)
     ternopil["Вулиця"] = ternopil["Вулиця"].apply(remove_spaces)
     
