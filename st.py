@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from street_ternopil import replace_street_dict
+
 # Налаштування сторінки
 st.set_page_config(layout="wide")
 
@@ -157,10 +159,17 @@ if not df.empty and df.columns.any():
     # Застосовуємо функцію до колонки
     ternopil["Факт.місто"] = ternopil['Факт.адресадоставки'].apply(extract_part)
     ternopil["Факт.місто"] = ternopil["Факт.місто"].apply(remove_spaces)
-
+    
+    def replacement_street(text):
+        if isinstance(text, str):  # Переконуємось, що значення рядок
+            for key, value in replace_street_dict.items():
+                text = text.replace(key, value)  # Замінюємо ключ на значення
+            return text.strip()  # Видаляємо зайві пробіли
+        return text  # Якщо це не рядок, повертаємо його без змін
     def extract_street(address_street):
         parts = address_street.split(',')
         return parts[1].strip() if len(parts) > 1 else ""  # Перевіряємо, чи є хоча б 2 частини
+    ternopil["Факт.місто"] = ternopil["Факт.місто"].apply(replace_street_dict).replace(",,",",")
 
     ternopil["Вулиця"] = ternopil['Факт.адресадоставки'].apply(extract_street)
     ternopil["Вулиця"] = ternopil["Вулиця"].apply(remove_spaces)
