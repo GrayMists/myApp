@@ -97,4 +97,7 @@ else:
                 
                 st.write(filtered_pivot_ternipil_street.fillna(0))
                 
-               
+st.write(pivot_ternopil_street.style \
+        .format(precision=3, thousands=".", decimal=",") \
+        .format_index(str.upper, axis=1)
+         )          
