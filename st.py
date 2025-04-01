@@ -33,7 +33,10 @@ clean_address_column(df)
 
 df.columns = df.columns.astype(str).str.strip()
 # Вибір регіону
-selected_region = st.selectbox("Оберіть регіон:", df["Регіон"].unique())
+if "Регіон" not in df.columns:
+    st.error("Колонка 'Регіон' не знайдена в даних!")
+else:
+    selected_region = st.selectbox("Оберіть регіон:", df["Регіон"].unique())
 # Замініть існуючий фільтр
 filtered_df = df[df["Регіон"] == selected_region].reset_index(drop=True)
 
