@@ -176,7 +176,7 @@ if not df.empty and df.columns.any():
         
 
         # Створюємо горизонтальний графік із заданим розміром
-        fig, ax = plt.subplots(figsize=(3, 8))  
+        fig, ax = plt.subplots(figsize=(2, 6))  
 
         bars = ax.barh(aggregated_data["Найменування"], aggregated_data["Кількість"])
 
