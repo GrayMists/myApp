@@ -31,7 +31,7 @@ clean_quantity_column(df)
 # Функція очищення адреси доставки від пробілів
 clean_address_column(df)
 
-df.columns = df.columns.str.strip() 
+df.columns = df.columns.astype(str).str.strip()
 # Вибір регіону
 selected_region = st.selectbox("Оберіть регіон:", df["Регіон"].unique())
 # Замініть існуючий фільтр
