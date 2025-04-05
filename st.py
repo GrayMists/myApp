@@ -15,10 +15,11 @@ st.set_page_config(layout="wide")
 st.title("Завантаження Google Таблиці ")
 # Поле для введення посилання
 sheet_url = st.text_input("Вставте посилання на Google Табліцю:")
+load_button = st.button("Завантажити дані")
 # Ініціалізуємо порожній DataFrame
 df = pd.DataFrame()
 
-if sheet_url:
+if sheet_url and load_button:
     df = load_data(sheet_url)
     if isinstance(df, str):
         st.error(df)
