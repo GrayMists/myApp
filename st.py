@@ -12,20 +12,30 @@ from replacement_street_dictionaries import replace_ternopil_street_dict
 # Налаштування сторінки
 st.set_page_config(layout="wide")
 
-st.title("Завантаження Google Таблиці ")
-# Поле для введення посилання
-sheet_url = st.text_input("Вставте посилання на Google Табліцю:")
-load_button = st.button("Завантажити дані")
+st.title("Завантаження Google Табліці ")
+if "data_loaded" not in st.session_state:
+    st.session_state.data_loaded = False
+
+if not st.session_state.data_loaded:
+    with st.expander("🔗 Вставте посилання на Google Таблицю", expanded=True):
+        sheet_url = st.text_input("Посилання на таблицю:")
+        load_button = st.button("Завантажити дані")
+else:
+    sheet_url = st.session_state.get("sheet_url", "")
+    load_button = False
+
 # Ініціалізуємо порожній DataFrame
 df = pd.DataFrame()
 
 if sheet_url and load_button:
+    st.session_state.sheet_url = sheet_url
     df = load_data(sheet_url)
     if isinstance(df, str):
         st.error(df)
         df = pd.DataFrame()  # Скидаємо df у випадку помилки
     else:
         st.success("Дані успішно завантажені!")
+        st.session_state.data_loaded = True
 
         # Функція очищення колонки "Кількість"
         clean_quantity_column(df)
