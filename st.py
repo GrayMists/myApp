@@ -12,7 +12,7 @@ from replacement_street_dictionaries import replace_ternopil_street_dict
 # Налаштування сторінки
 st.set_page_config(layout="wide")
 
-st.title("Завантаження Google Табліці ")
+st.title("Зведені продажі ")
 if "data_loaded" not in st.session_state:
     st.session_state.data_loaded = False
 
@@ -80,9 +80,11 @@ if sheet_url and load_button:
                 col1, col2 = st.columns([1,4])
 
                 with col1:
-                    st.write("Загальна продана кількість")
-                    st.dataframe(filtered_df.groupby("Найменування")["Кількість"].sum(), height=900, width=600)
-                        
+                    st.write("ТОП-5 найбільших продаж")
+                    st.dataframe(filtered_df.groupby("Найменування")["Кількість"].sum().sort_values(ascending=False).head(5), width=600)
+                    st.write("ТОП-5 найменших продаж")
+                    st.dataframe(filtered_df.groupby("Найменування")["Кількість"].sum().sort_values().head(5), width=600)
+  
                 with col2:
                     # Створюємо список унікальних міст з колонки "Факт.місто"
                     cities = filtered_df["Факт.місто"].dropna().unique()
