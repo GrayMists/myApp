@@ -59,7 +59,14 @@ else:
     #filtered_df["Вулиця"] = filtered_df["Вулиця"].apply(remove_spaces)
     filtered_df["Найменування"] = filtered_df["Найменування"].str[3:]
     filtered_df["Найменування"] = filtered_df["Найменування"].str.strip()
-    locale.setlocale(locale.LC_ALL, 'uk_UA.UTF-8')
+    try:
+        locale.setlocale(locale.LC_ALL, 'uk_UA.UTF-8')
+    except locale.Error:
+        try:
+            locale.setlocale(locale.LC_ALL, 'uk_UA.utf8')
+        except locale.Error:
+            st.warning("Українська локаль недоступна. Використовується системна локаль.")
+            locale.setlocale(locale.LC_ALL, '')
     filtered_df = filtered_df.sort_values(
         by="Найменування",
         key=lambda col: col.map(locale.strxfrm)
