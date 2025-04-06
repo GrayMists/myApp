@@ -41,6 +41,8 @@ else:
         street_value = replace_ternopil_street_dict
     elif selected_region == "10. Івано-Франк":
         region_values = remove_values_from_frankivsk
+        city_values = {}
+        street_value = {}
 
     #Проводимо очистку відфільтрованого датасету змінююси назви міст та вулиць на коректні
     filtered_df["Факт.адресадоставки"] = filtered_df["Факт.адресадоставки"].apply(remove_unwanted, region_values=region_values)
