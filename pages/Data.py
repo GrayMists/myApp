@@ -56,7 +56,7 @@ else:
 
     filtered_df["Вулиця"] = filtered_df['Факт.адресадоставки'].apply(extract_street)
     #filtered_df["Вулиця"] = filtered_df["Вулиця"].apply(remove_spaces)
-    filtered_df["Найменування"] = filtered_df["Найменування"].str[3:]
+    #filtered_df["Найменування"] = filtered_df["Найменування"].str[3:]
     filtered_df["Найменування"] = filtered_df["Найменування"].str.strip()
 
     collator = pyuca.Collator()
