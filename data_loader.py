@@ -21,8 +21,8 @@ def load_data(sheet_url):
         df = pd.read_csv(csv_url)
         df.columns = df.columns.str.replace(" ","")  # Видаляємо пробіли з назв колонок
         excluded_columns = ["Adding", "ЄДРПОУ", "Юр.адресаклієнта"]
-        df = df[df['Регіон'].isin(['24. Тернопіль'])]
-        #, '10. Івано-Франк', '21. Ужгород' <-- до фільтру тернопіль щоб отримувати тільки ті дані що будуть в фільтрі
+        df = df[df['Регіон'].isin(['24. Тернопіль', '10. Івано-Франк'])]
+        #, '21. Ужгород' <-- до фільтру тернопіль щоб отримувати тільки ті дані що будуть в фільтрі
         df = df.drop(columns=[col for col in excluded_columns if col in df.columns], errors="ignore")
         return df
     except Exception as e:
