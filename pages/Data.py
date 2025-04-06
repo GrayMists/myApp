@@ -56,8 +56,10 @@ else:
     filtered_df["Вулиця"] = filtered_df['Факт.адресадоставки'].apply(extract_street)
     #filtered_df["Вулиця"] = filtered_df["Вулиця"].apply(remove_spaces)
     filtered_df["Найменування"] = filtered_df["Найменування"].str[3:]
-    filtered_df = filtered_df.sort_values("Найменування")
+    filtered_df["Найменування"] = filtered_df["Найменування"].str.strip()
+    st.write(filtered_df["Найменування"].sort_values().unique())
     st.write(filtered_df)
+    
 
     
     col1, col2 = st.columns([1,4])
