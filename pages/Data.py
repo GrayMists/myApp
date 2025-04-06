@@ -60,9 +60,9 @@ else:
 
     with col1:
          st.write("ТОП-5 найбільших продаж області")
-         st.dataframe(filtered_df.groupby("Найменування")["Кількість"].sum().sort_values(ascending=False).head(5), width=600)
+         st.dataframe(filtered_df.groupby("Найменування")["Кількість"].sum().sort_values(ascending=False).head(5), width=500)
          st.write("ТОП-5 найменших продаж області")
-         st.dataframe(filtered_df.groupby("Найменування")["Кількість"].sum().sort_values().head(5), width=600)
+         st.dataframe(filtered_df.groupby("Найменування")["Кількість"].sum().sort_values().head(5), width=500)
             
     with col2:
         # Створюємо список унікальних міст з колонки "Факт.місто"
