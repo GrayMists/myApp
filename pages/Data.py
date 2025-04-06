@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-import pyuca
+
 
 from st import df
 
@@ -13,7 +13,6 @@ from replacement_street_dictionaries import replace_ternopil_street_dict
 # Перевірка, чи є дані в session_state
 if 'df' in st.session_state:
     df = st.session_state.df  # Отримуємо дані з session_state
-    #st.write(df)  # Виводимо дані
 else:
     st.error("Дані не знайдено. Спочатку завантажте дані на першій сторінці.")
 
@@ -56,17 +55,7 @@ else:
 
     filtered_df["Вулиця"] = filtered_df['Факт.адресадоставки'].apply(extract_street)
     #filtered_df["Вулиця"] = filtered_df["Вулиця"].apply(remove_spaces)
-    #filtered_df["Найменування"] = filtered_df["Найменування"].str[3:]
     filtered_df["Найменування"] = filtered_df["Найменування"].str.strip()
-
-    collator = pyuca.Collator()
-
-    filtered_df = filtered_df.sort_values(
-        by="Найменування",
-        key=lambda col: col.apply(lambda x: collator.sort_key(x))
-    )
-    
-    st.write(filtered_df["Найменування"].sort_values().unique())
     st.write(filtered_df)
     
 

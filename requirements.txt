@@ -1,5 +1,4 @@
 streamlit
 pandas
 matplotlib
-pyuca
 # Додайте інші необхідні бібліотеки
