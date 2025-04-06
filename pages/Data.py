@@ -53,7 +53,7 @@ else:
     filtered_df["Вулиця"] = filtered_df['Факт.адресадоставки'].apply(extract_street)
     #filtered_df["Вулиця"] = filtered_df["Вулиця"].apply(remove_spaces)
     filtered_df["Найменування"] = filtered_df["Найменування"].str[3:]
-    st.write(filtered_df)
+    #st.write(filtered_df)
 
     
     col1, col2 = st.columns([1,4])
