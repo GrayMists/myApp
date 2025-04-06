@@ -12,7 +12,7 @@ from replacement_street_dictionaries import replace_ternopil_street_dict
 # Перевірка, чи є дані в session_state
 if 'df' in st.session_state:
     df = st.session_state.df  # Отримуємо дані з session_state
-    st.write(df)  # Виводимо дані
+    #st.write(df)  # Виводимо дані
 else:
     st.error("Дані не знайдено. Спочатку завантажте дані на першій сторінці.")
 
@@ -27,6 +27,7 @@ if "Регіон" not in df.columns:
     st.error("Для отримання даних треба ввести правильне посилання")
 else:
     selected_region = st.selectbox("Оберіть регіон:", df["Регіон"].unique())
+
 # Замініть існуючий фільтр
 filtered_df = df[df["Регіон"] == selected_region].reset_index(drop=True)
 
@@ -53,7 +54,7 @@ else:
     filtered_df["Вулиця"] = filtered_df['Факт.адресадоставки'].apply(extract_street)
     #filtered_df["Вулиця"] = filtered_df["Вулиця"].apply(remove_spaces)
     filtered_df["Найменування"] = filtered_df["Найменування"].str[3:]
-    #st.write(filtered_df)
+    st.write(filtered_df)
 
     
     col1, col2 = st.columns([1,4])
