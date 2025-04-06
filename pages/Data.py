@@ -75,8 +75,8 @@ else:
             st.warning("Немає міст для вибору.")
         else:
             # Створення зведеної таблиці по місту та вулицях
-            pivot_ternopil_street = pd.pivot_table(filtered_df, values="Кількість", index=["Факт.місто", "Вулиця"], columns="Найменування", aggfunc="sum")
-            pivot_ternopil_street = pivot_ternopil_street.reindex(sorted(pivot_ternopil_street.columns), axis=1)
+            pivot_ternopil_street = pd.pivot_table(filtered_df, values="Кількість", index=["Факт.місто", "Вулиця"], columns="Найменування", aggfunc="sum", sort=False)
+            pivot_ternopil_street = pivot_ternopil_street.loc[:, sorted(pivot_ternopil_street.columns)]
             
             if not isinstance(pivot_ternopil_street.index, pd.MultiIndex):
                 st.error("Індекс `pivot_ternopil_street` не є MultiIndex. Перевірте створення зведеної таблиці.")
