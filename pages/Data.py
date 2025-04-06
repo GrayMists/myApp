@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
+import locale
 import matplotlib.pyplot as plt
+
 
 from st import df
 
@@ -57,6 +59,11 @@ else:
     #filtered_df["Вулиця"] = filtered_df["Вулиця"].apply(remove_spaces)
     filtered_df["Найменування"] = filtered_df["Найменування"].str[3:]
     filtered_df["Найменування"] = filtered_df["Найменування"].str.strip()
+    locale.setlocale(locale.LC_ALL, 'uk_UA.UTF-8')
+    filtered_df = filtered_df.sort_values(
+        by="Найменування",
+        key=lambda col: col.map(locale.strxfrm)
+    )
     st.write(filtered_df["Найменування"].sort_values().unique())
     st.write(filtered_df)
     
