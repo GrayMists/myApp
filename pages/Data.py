@@ -83,6 +83,18 @@ else:
             else:
                 # Мультивибір для міста
                 selected_cities = st.multiselect("Оберіть міста: (фільтр стосується тільки 'Зведена таблиця по містах та вулицях')", cities)
+                if selected_cities:
+                # Фільтруємо дані по вибраним містам
+                filtered_df_by_city = filtered_df[filtered_df["Факт.місто"].isin(selected_cities)]
+                
+                # Групуємо по місту та іншій колонці, наприклад, "Найменування" або "Вулиця"
+                grouped_by_city = filtered_df_by_city.groupby(["Найменування"])["Кількість"].sum().reset_index()
+                
+                # Виводимо результат
+                st.write(grouped_by_city)
+                else:
+                # Якщо міста не вибрано, показуємо все
+                st.write(filtered_df)
                 # Створення та виведення зведеної таблиці по місту та вулицях для вибраних міст
                 if selected_cities:
                     filtered_pivot_ternipil_street = pivot_ternopil_street.loc[pivot_ternopil_street.index.get_level_values("Факт.місто").isin(selected_cities)]
