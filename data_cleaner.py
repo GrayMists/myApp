@@ -49,3 +49,8 @@ def replacement_street(text, street_values):
 def extract_street(address_street):
     parts = address_street.split(',')
     return parts[1].strip() if len(parts) > 1 else ""  # Перевіряємо, чи є хоча б 2 частини
+
+def mr_district(text, dict):
+    if isinstance(text, str):  # Перевіряємо, чи це рядок
+        return dict.get(text, "").strip()
+    return text

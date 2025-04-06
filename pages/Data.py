@@ -5,10 +5,11 @@ import matplotlib.pyplot as plt
 
 from st import df
 
-from data_cleaner import clean_quantity_column, clean_address_column,remove_unwanted, replacement_city,extract_city,remove_spaces,replacement_street, extract_street
+from data_cleaner import clean_quantity_column, clean_address_column,remove_unwanted, replacement_city,extract_city,remove_spaces,replacement_street, extract_street, mr_district
 from dictionary_to_clear import remove_values_from_ternopil, remove_values_from_frankivsk
 from replacement_city_dictionaries import replace_ternopil_city_dict
 from replacement_street_dictionaries import replace_ternopil_street_dict
+from mr import territory_mr
 
 # Перевірка, чи є дані в session_state
 if 'df' in st.session_state:
@@ -56,6 +57,8 @@ else:
     filtered_df["Вулиця"] = filtered_df['Факт.адресадоставки'].apply(extract_street)
     #filtered_df["Вулиця"] = filtered_df["Вулиця"].apply(remove_spaces)
     filtered_df["Найменування"] = filtered_df["Найменування"].str.strip()
+    #додаємо категоризацію по території, для подальшого зручнішого групування
+    filtered_df["Територія"] = filtered_df["Факт.місто"].apply(lambda x: mr_district(x, territory_mr))
     st.write(filtered_df)
     
 
@@ -105,8 +108,6 @@ else:
 
                 
                 st.write(filtered_pivot_ternipil_street.fillna(0))
-                
-st.write(filtered_df.style \
-        .format(precision=3, thousands=".", decimal=",") \
-        .format_index(str.upper, axis=1)
-         )          
+                st.write(filtered_df.pivot_table(index="Найменування", columns="Територія", values="Кількість", aggfunc="sum")) 
+
+st.write(filtered_df)
