@@ -143,12 +143,12 @@ if df is not None:
                     fill_value=0
                     )
                     st.write(pivot)
-
-                    pivot.plot(kind="bar", stacked=False, figsize=(12, 6), width=0.8)
+                    pivot = pivot[::-1]
+                    pivot.plot(kind="barh", stacked=False, figsize=(4, 10), width=0.8)
                     plt.title("Продажі по товарах та територіях")
-                    plt.xlabel("Товар")
-                    plt.ylabel("Кількість")
-                    plt.xticks(rotation=45, ha="right")
+                    plt.xlabel("Кількість")
+                    plt.ylabel("Товар")
+                    plt.legend(fontsize=8)
                     st.pyplot(plt.gcf())
 
 
