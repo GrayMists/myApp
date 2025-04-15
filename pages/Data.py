@@ -153,9 +153,9 @@ if df is not None:
                     fig.patch.set_facecolor('#0b4b5c')  # фон всієї області
                     ax.set_facecolor('#0b4b5c')         # фон поля побудови
 
-                    plt.title("Продажі товарів та територіях")
-                    plt.xlabel("Кількість")
-                    plt.ylabel("Товар")
+                    plt.title("Продажі товарів та територіях", color="#fff")
+                    plt.xlabel("Кількість", color="#fff")
+                    plt.ylabel("Товар", color="#fff")
 
                     # Зменшення шрифту легенди
                     plt.legend(fontsize=8)
