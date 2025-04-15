@@ -1,5 +1,4 @@
 streamlit
 pandas
 matplotlib
-switch_pag
 # Додайте інші необхідні бібліотеки

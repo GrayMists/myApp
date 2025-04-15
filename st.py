@@ -1,14 +1,16 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-from streamlit_extras.switch_page_button import switch_page
+
 
 from data_loader import load_data
 
 
+
+
 # Створюємо вибір між сторінками
 st.set_page_config(
-    page_title="Sales Board",
+    page_title="Salae board",
     page_icon="⚡️",
     layout="wide"
 )
@@ -27,6 +29,6 @@ if sheet_url and load_button:
         st.error(df)
         df = pd.DataFrame()  # Скидаємо df у випадку помилки
     else:
+        st.success("Дані успішно завантажені!")
         # Зберігаємо завантажені дані в session_state
         st.session_state.df = df
-        switch_page("data")
