@@ -1,6 +1,5 @@
 streamlit
 pandas
 matplotlib
-streamlit_extras.switch_page_button
 switch_pag
 # Додайте інші необхідні бібліотеки
