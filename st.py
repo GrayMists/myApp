@@ -22,7 +22,8 @@ selected = option_menu(
     icons=["cloud-upload", "bar-chart"],
     menu_icon="cast",
     default_index=0,
-    orientation="horizontal"
+    orientation="horizontal",
+    key="main_menu" 
 )
 if selected == "Завантаження":
     # Поле для введення посилання

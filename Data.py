@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-from streamlit_option_menu import option_menu
+
 
 
 from data_cleaner import (
@@ -27,14 +27,6 @@ from replacement_street_dictionaries import replace_ternopil_street_dict
 from mr import territory_mr,street_territory_2
 from products import products_dict
 
-selected = option_menu(
-    menu_title=None,
-    options=["Завантаження", "Дані"],
-    icons=["cloud-upload", "bar-chart"],
-    menu_icon="cast",
-    default_index=0,
-    orientation="horizontal"
-)
 
 def show_data():
     # Перевірка, чи є дані в session_state
