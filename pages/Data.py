@@ -125,7 +125,22 @@ if df is not None:
                         filtered_pivot_ternipil_street = pivot_ternopil_street
 
                     st.write(filtered_pivot_ternipil_street.fillna(0))
-                    st.write(filtered_df.pivot_table(index="Найменування", columns="Територія", values="Кількість", aggfunc="sum"))
+
+                    pivot = filtered_df.pivot_table(
+                    index="Найменування",
+                    columns="Територія",
+                    values="Кількість",
+                    aggfunc="sum",
+                    fill_value=0
+                    )
+                    st.write(pivot)
+
+                    pivot.plot(kind="bar", stacked=False, figsize=(12, 6), width=0.8)
+                    plt.title("Продажі по товарах та територіях")
+                    plt.xlabel("Товар")
+                    plt.ylabel("Кількість")
+                    plt.xticks(rotation=45, ha="right")
+                    st.pyplot(plt.gcf())
                     
     mask = filtered_df["Територія"].str.contains("Теронопіль.заг", case=False, na=False)
     if mask.any():
