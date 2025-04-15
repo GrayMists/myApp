@@ -143,14 +143,27 @@ if df is not None:
                     fill_value=0
                     )
                     st.write(pivot)
+                    # Перевертаємо, щоб товари були знизу вгору
                     pivot = pivot[::-1]
+
+                    # Побудова графіка
                     pivot.plot(kind="barh", stacked=False, figsize=(4, 10), width=0.8)
-                    plt.title("Продажі по товарах та територіях")
+                    fig = plt.gcf()
+                    ax = plt.gca()
+                    fig.patch.set_facecolor('#0b4b5c')  # фон всієї області
+                    ax.set_facecolor('#0b4b5c')         # фон поля побудови
+
+                    plt.title("Продажі товарів та територіях")
                     plt.xlabel("Кількість")
                     plt.ylabel("Товар")
+
+                    # Зменшення шрифту легенди
                     plt.legend(fontsize=8)
+
+                    # Показуємо графік
                     st.pyplot(plt.gcf())
 
+        
 
     st.write(filtered_df)                
     mask = filtered_df["Територія"].str.contains("Теронопіль.заг", case=False, na=False)
