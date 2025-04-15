@@ -54,3 +54,15 @@ def mr_district(text, dict):
     if isinstance(text, str):  # Перевіряємо, чи це рядок
         return dict.get(text, "").strip()
     return text
+
+
+def update_territory_for_city_streets(df, city_name, street_dict):
+    def update_row(row):
+        if row["Факт.місто"] == city_name:
+            for street_key, territory in street_dict.items():
+                if pd.notna(row["Вулиця"]) and street_key in row["Вулиця"]:
+                    return territory
+        return row["Територія"]
+    
+    df["Територія"] = df.apply(update_row, axis=1)
+    return df

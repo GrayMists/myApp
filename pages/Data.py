@@ -12,6 +12,7 @@ from data_cleaner import (
     replacement_street,
     extract_street,
     mr_district,
+    update_territory_for_city_streets,
 )
 from dictionary_to_clear import (
     remove_values_from_ternopil,
@@ -19,7 +20,7 @@ from dictionary_to_clear import (
 )
 from replacement_city_dictionaries import replace_ternopil_city_dict
 from replacement_street_dictionaries import replace_ternopil_street_dict
-from mr import territory_mr
+from mr import territory_mr,street_territory_2
 
 def get_session_dataframe():
     if 'df' in st.session_state:
@@ -55,6 +56,7 @@ def process_filtered_df(df, region_name):
     # Додаємо категоризацію по території, для подальшого зручнішого групування
     df["Територія"] = df["Факт.місто"].apply(lambda x: mr_district(x, territory_mr))
     return df
+    
 
 # Перевірка, чи є дані в session_state
 df = get_session_dataframe()
@@ -78,6 +80,7 @@ if df is not None:
         st.warning("Немає даних для вибраного регіону!")
     else:
         filtered_df = process_filtered_df(filtered_df, selected_region)
+        filtered_df = update_territory_for_city_streets(filtered_df, "м.Тернопіль", street_territory_2)
 
         col1, col2 = st.columns([1, 4])
 
@@ -123,3 +126,8 @@ if df is not None:
 
                     st.write(filtered_pivot_ternipil_street.fillna(0))
                     st.write(filtered_df.pivot_table(index="Найменування", columns="Територія", values="Кількість", aggfunc="sum"))
+                    
+    mask = filtered_df["Територія"].str.contains("Теронопіль.заг", case=False, na=False)
+    if mask.any():
+        st.write("В даній таблиці наведено інфомацію по рподажаї які не вдалось розподілити до певної території")
+        st.write(filtered_df[mask])
