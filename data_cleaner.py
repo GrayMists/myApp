@@ -50,6 +50,10 @@ def extract_street(address_street):
     parts = address_street.split(',')
     return parts[1].strip() if len(parts) > 1 else ""  # Перевіряємо, чи є хоча б 2 частини
 
+def extract_num_house(address_street):
+    parts = address_street.split(',')
+    return parts[2].strip() if len(parts) > 2 else ""  # Перевіряємо, чи є хоча б 3 частини
+
 def mr_district(text, dict):
     if isinstance(text, str):  # Перевіряємо, чи це рядок
         return dict.get(text, "").strip()
@@ -65,4 +69,14 @@ def update_territory_for_city_streets(df, city_name, street_dict):
         return row["Територія"]
     
     df["Територія"] = df.apply(update_row, axis=1)
+    return df
+
+def assign_line_from_product_name(df, product_dict):
+    def find_line(name):
+        for key in product_dict:
+            if key in name:
+                return product_dict[key]
+        return None  # або "" якщо потрібно залишати порожнім
+    if "Найменування" in df.columns:
+        df["Лінія_авто"] = df["Найменування"].apply(find_line)
     return df

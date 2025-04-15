@@ -13,6 +13,8 @@ from data_cleaner import (
     extract_street,
     mr_district,
     update_territory_for_city_streets,
+    extract_num_house,
+    assign_line_from_product_name
 )
 from dictionary_to_clear import (
     remove_values_from_ternopil,
@@ -21,6 +23,7 @@ from dictionary_to_clear import (
 from replacement_city_dictionaries import replace_ternopil_city_dict
 from replacement_street_dictionaries import replace_ternopil_street_dict
 from mr import territory_mr,street_territory_2
+from products import products_dict
 
 def get_session_dataframe():
     if 'df' in st.session_state:
@@ -44,14 +47,19 @@ def process_filtered_df(df, region_name):
     df["Факт.адресадоставки"] = df["Факт.адресадоставки"].apply(remove_unwanted, region_values=region_values)
     df["Факт.адресадоставки"] = df["Факт.адресадоставки"].apply(replacement_city, city_values=city_values).replace(",,", ",")
     df['Факт.адресадоставки'] = df['Факт.адресадоставки'].str.replace(" ", "")
-    df['Факт.адресадоставки'] = df['Факт.адресадоставки'].apply(replacement_street, street_values=street_value).replace(",,", ",")
+    
+    df['Факт.адресадоставки'] = df['Факт.адресадоставки'].apply(replacement_street, street_values=street_value).str.replace(',,', ',', regex=True)
+    
     
     # Створюємо колонку з назвою міста, для подальшої можливості групування
     df["Факт.місто"] = df['Факт.адресадоставки'].apply(extract_city)
     df["Факт.місто"] = df["Факт.місто"].apply(remove_spaces)
-
+    # Створюємо колонку з назвою вулиці, для подальшої можливості групування
     df["Вулиця"] = df['Факт.адресадоставки'].apply(extract_street)
-    df["Найменування"] = df["Найменування"].str.strip()
+    df["Вулиця"] = df["Вулиця"].str.strip()
+
+    df["НомерБудинку"] = df['Факт.адресадоставки'].apply(extract_num_house)
+    df["НомерБудинку"] = df["НомерБудинку"].str.strip()
     
     # Додаємо категоризацію по території, для подальшого зручнішого групування
     df["Територія"] = df["Факт.місто"].apply(lambda x: mr_district(x, territory_mr))
@@ -81,6 +89,7 @@ if df is not None:
     else:
         filtered_df = process_filtered_df(filtered_df, selected_region)
         filtered_df = update_territory_for_city_streets(filtered_df, "м.Тернопіль", street_territory_2)
+        filtered_df = assign_line_from_product_name(filtered_df, products_dict)
 
         col1, col2 = st.columns([1, 4])
 
@@ -141,7 +150,9 @@ if df is not None:
                     plt.ylabel("Кількість")
                     plt.xticks(rotation=45, ha="right")
                     st.pyplot(plt.gcf())
-                    
+
+
+    st.write(filtered_df)                
     mask = filtered_df["Територія"].str.contains("Теронопіль.заг", case=False, na=False)
     if mask.any():
         st.write("В даній таблиці наведено інфомацію по рподажаї які не вдалось розподілити до певної території")
