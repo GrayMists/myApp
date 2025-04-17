@@ -43,10 +43,12 @@ def process_filtered_df(df, region_name):
         region_values = remove_values_from_ternopil
         city_values = replace_ternopil_city_dict
         street_value = replace_ternopil_street_dict
+        street_mr = street_territory_2
     elif region_name == "м.Івано-Франківськ":
         region_values = remove_values_from_frankivsk
         city_values = {}
         street_value = {}
+        street_mr = {}
 
     # Проводимо очистку відфільтрованого датасету змінюючи назви міст та вулиць на коректні
     df["Факт.адресадоставки"] = df["Факт.адресадоставки"].apply(remove_unwanted, region_values=region_values)
@@ -67,6 +69,8 @@ def process_filtered_df(df, region_name):
     
     # Додаємо категоризацію по території, для подальшого зручнішого групування
     df["Територія"] = df["Факт.місто"].apply(lambda x: mr_district(x, territory_mr))
+    df = update_territory_for_city_streets(df, region_name, street_mr)
+    df = assign_line_from_product_name(df, products_dict)
     # Функція очищення колонки "Кількість"
     clean_quantity_column(df)
     # Функція очищення адреси доставки від пробілів
@@ -77,8 +81,7 @@ def process_filtered_df(df, region_name):
 def prepare_filtered_data(df, region_name):
     filtered_df = df[df["Регіон"] == region_name].reset_index(drop=True)
     filtered_df = process_filtered_df(filtered_df, region_name)
-    filtered_df = update_territory_for_city_streets(filtered_df, region_name, street_territory_2)
-    filtered_df = assign_line_from_product_name(filtered_df, products_dict)
+    
     return filtered_df
 
 
