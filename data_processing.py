@@ -19,13 +19,13 @@ from data_cleaner import (
     assign_line_from_product_name
     
 )
-from dictionary_to_clear import (
+from dictionaries.dictionary_to_clear import (
     remove_values_from_ternopil,
     remove_values_from_frankivsk,
 )
-from replacement_city_dictionaries import replace_ternopil_city_dict
-from replacement_street_dictionaries import replace_ternopil_street_dict
-from mr import territory_mr, street_territory_2
+from dictionaries.replacement_city_dictionaries import replace_ternopil_city_dict
+from dictionaries.replacement_street_dictionaries import replace_ternopil_street_dict
+from dictionaries.mr import territory_mr, street_territory_2
 from products import products_dict
 
 
