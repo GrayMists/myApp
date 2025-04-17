@@ -8,7 +8,8 @@ st.set_page_config(
 
 import pandas as pd
 from streamlit_option_menu import option_menu
-import Data
+import app_page.region_page as rerion_page
+import app_page.city_page as city_page
 
 from data_loader import load_data
 
@@ -18,8 +19,8 @@ from data_loader import load_data
 #with st.sidebar:
 selected = option_menu(
     menu_title=None,
-    options=["Завантаження", "Дані"],
-    icons=["cloud-upload", "bar-chart"],
+    options=["Завантаження", "Регіони", "Місто"],
+    icons=["cloud-upload","back" ,"bar-chart"],
     menu_icon="cast",
     default_index=0,
     orientation="horizontal",
@@ -42,5 +43,7 @@ if selected == "Завантаження":
                 st.success("Дані успішно завантажені!")
                 # Зберігаємо завантажені дані в session_state
                 st.session_state.df = df
-elif selected == "Дані":
-    Data.show_data()
+elif selected == "Регіони":
+    rerion_page.show_data()
+elif selected == "Місто":
+    city_page.show_data()

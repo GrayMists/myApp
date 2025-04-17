@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 # Функція очищення колонки "Кількість"
 def clean_quantity_column(df):
     if "Кількість" in df.columns:
@@ -39,27 +38,27 @@ def remove_spaces(text):
     if isinstance(text, str):  # Перевіряємо, чи це рядок
         return "".join(char for char in text if char != " ")
     return text  # Якщо це не рядок, повертаємо без змін
-
+#Функція для заміни назв вулиць
 def replacement_street(text, street_values):
     if isinstance(text, str):  # Переконуємось, що значення рядок
         for key, value in street_values.items():
             text = text.replace(key, value)  # Замінюємо ключ на значення
         return text.strip()  # Видаляємо зайві пробіли
     return text  # Якщо це не рядок, повертаємо його без змін
+#Функція для отримання назв вулиць
 def extract_street(address_street):
     parts = address_street.split(',')
     return parts[1].strip() if len(parts) > 1 else ""  # Перевіряємо, чи є хоча б 2 частини
-
+#Функція для отримання номуру будинку
 def extract_num_house(address_street):
     parts = address_street.split(',')
     return parts[2].strip() if len(parts) > 2 else ""  # Перевіряємо, чи є хоча б 3 частини
-
+#Функція яка визначає приналежність до певної території відповідно до міста
 def mr_district(text, dict):
     if isinstance(text, str):  # Перевіряємо, чи це рядок
         return dict.get(text, "").strip()
     return text
-
-
+#Функція яка визначає приналежність до певної території відповідно до вулиці в місті
 def update_territory_for_city_streets(df, city_name, street_dict):
     def update_row(row):
         if row["Факт.місто"] == city_name:
@@ -70,7 +69,7 @@ def update_territory_for_city_streets(df, city_name, street_dict):
     
     df["Територія"] = df.apply(update_row, axis=1)
     return df
-
+#Функція яка визначає приналежність до певної лінії перпарату
 def assign_line_from_product_name(df, product_dict):
     def find_line(name):
         for key in product_dict:
@@ -80,3 +79,12 @@ def assign_line_from_product_name(df, product_dict):
     if "Найменування" in df.columns:
         df["Лінія_авто"] = df["Найменування"].apply(find_line)
     return df
+
+#Функція зміни наз регіонів
+def change_district_name(region: str):
+    region = str(region).strip()
+    if region == "10. Івано-Франк":
+        return "м.Івано-Франківськ"
+    elif region == "24. Тернопіль":
+        return "м.Тернопіль"
+    return region
