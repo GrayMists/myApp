@@ -39,7 +39,7 @@ def show_data():
 
     with col2:
         # Створюємо список унікальних міст з колонки "Факт.місто"
-        cities = filtered_df["Факт.місто"].dropna().unique()
+        cities = filtered_df["Місто"].dropna().unique()
 
         if cities.size == 0:
             st.warning("Немає міст для вибору.")
@@ -48,7 +48,7 @@ def show_data():
             pivot_ternopil_street = pd.pivot_table(
                 filtered_df,
                 values="Кількість",
-                index=["Факт.місто", "Вулиця"],
+                index=["Місто", "Вулиця"],
                 columns="Найменування",
                 aggfunc="sum"
             )
@@ -60,7 +60,7 @@ def show_data():
                 selected_cities = st.multiselect("Оберіть міста: (фільтр стосується тільки 'Зведена таблиця по містах та вулицях')", cities)
                 # Фільтруємо дані по вибраним містам
                 if selected_cities:
-                    filtered_df_sku = filtered_df[filtered_df["Факт.місто"].isin(selected_cities)].groupby("Найменування")["Кількість"].sum().reset_index()
+                    filtered_df_sku = filtered_df[filtered_df["Місто"].isin(selected_cities)].groupby("Найменування")["Кількість"].sum().reset_index()
                 else:
                     filtered_df_sku = filtered_df.groupby("Найменування")["Кількість"].sum().reset_index()
 

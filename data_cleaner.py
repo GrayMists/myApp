@@ -61,7 +61,7 @@ def mr_district(text, dict):
 #Функція яка визначає приналежність до певної території відповідно до вулиці в місті
 def update_territory_for_city_streets(df, city_name, street_dict):
     def update_row(row):
-        if row["Факт.місто"] == city_name:
+        if row["Місто"] == city_name:
             for street_key, territory in street_dict.items():
                 if pd.notna(row["Вулиця"]) and street_key in row["Вулиця"]:
                     return territory
@@ -77,7 +77,7 @@ def assign_line_from_product_name(df, product_dict):
                 return product_dict[key]
         return None  # або "" якщо потрібно залишати порожнім
     if "Найменування" in df.columns:
-        df["Лінія_авто"] = df["Найменування"].apply(find_line)
+        df["Лінія"] = df["Найменування"].apply(find_line)
     return df
 
 #Функція зміни наз регіонів
@@ -100,12 +100,12 @@ def clean_delivery_address(df, column, region_name, region_values, city_values, 
         .str.replace(",,", ",", regex=True)
     )
     
-    df["Факт.місто"] = df[column].apply(extract_city).apply(remove_spaces)
+    df["Місто"] = df[column].apply(extract_city).apply(remove_spaces)
     df["Вулиця"] = df[column].apply(extract_street).str.strip()
     df["НомерБудинку"] = df[column].apply(extract_num_house).str.strip()
 
     # Додаємо категоризацію по території, для подальшого зручнішого групування
-    df["Територія"] = df["Факт.місто"].apply(lambda x: mr_district(x, territory_mr))
+    df["Територія"] = df["Місто"].apply(lambda x: mr_district(x, territory_mr))
     df = update_territory_for_city_streets(df, region_name, street_mr)
     df = assign_line_from_product_name(df, products_dict)
     # Функція очищення колонки "Кількість"
