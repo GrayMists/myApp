@@ -2,4 +2,5 @@ streamlit
 pandas
 matplotlib
 streamlit-option-menu
+openpyxl
 # Додайте інші необхідні бібліотеки
