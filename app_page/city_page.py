@@ -12,7 +12,8 @@ from data_cleaner import change_district_name
 
 def show_data():
     # Перевірка, чи є дані
-    df = get_session_dataframe()
+
+    df = st.cache_data(get_session_dataframe)()
     if df is not None:
         #Переконуємось, що всі назви колонок є рядками, та очищаємо від пробілів на початку і вкінці
         df.columns = df.columns.astype(str).str.strip()
