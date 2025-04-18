@@ -88,3 +88,29 @@ def change_district_name(region: str):
     elif region == "24. Тернопіль":
         return "м.Тернопіль"
     return region
+
+#Функцію очищення колонки адреси, та отримання нових колонок міста, вулиці та номеру бодинку
+def clean_delivery_address(df, column, region_values, city_values, street_value, territory_mr, street_mr, products_dict):
+    df[column] = (
+        df[column]
+        .apply(remove_unwanted, region_values=region_values)
+        .apply(replacement_city, city_values=city_values)
+        .str.replace(" ", "")
+        .apply(replacement_street, street_values=street_value)
+        .str.replace(",,", ",", regex=True)
+    )
+    
+    df["Факт.місто"] = df[column].apply(extract_city).apply(remove_spaces)
+    df["Вулиця"] = df[column].apply(extract_street).str.strip()
+    df["НомерБудинку"] = df[column].apply(extract_num_house).str.strip()
+
+    # Додаємо категоризацію по території, для подальшого зручнішого групування
+    df["Територія"] = df["Факт.місто"].apply(lambda x: mr_district(x, territory_mr))
+    df = update_territory_for_city_streets(df, region_name, street_mr)
+    df = assign_line_from_product_name(df, products_dict)
+    # Функція очищення колонки "Кількість"
+    clean_quantity_column(df)
+    # Функція очищення адреси доставки від пробілів
+    clean_address_column(df)
+    
+    return df
