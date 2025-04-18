@@ -90,7 +90,7 @@ def change_district_name(region: str):
     return region
 
 #Функцію очищення колонки адреси, та отримання нових колонок міста, вулиці та номеру бодинку
-def clean_delivery_address(df, column, region_values, city_values, street_value, territory_mr, street_mr, products_dict):
+def clean_delivery_address(df, column, region_name, region_values, city_values, street_value, territory_mr, street_mr, products_dict):
     df[column] = (
         df[column]
         .apply(remove_unwanted, region_values=region_values)

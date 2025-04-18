@@ -39,7 +39,7 @@ def process_filtered_df(df, region_name):
         street_mr = {}   
 
     col = "Факт.адресадоставки"
-    df = clean_delivery_address(df, col, region_values, city_values, street_value, territory_mr, street_mr, products_dict)
+    df = clean_delivery_address(df, col, region_name, region_values, city_values, street_value, territory_mr, street_mr, products_dict)
     
     return df
 #Обробка даних, та формування фінального dataFrame з яким буде проводитись візуалізація
