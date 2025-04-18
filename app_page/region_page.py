@@ -8,7 +8,16 @@ from data_processing import (
 
 from data_cleaner import change_district_name
 
+#Функція для отримання згрупованих препаратів 1 лінії
+def line_one_df (df):
+    line_one = df[df["Лінія"] == "Лінія 1"].groupby("Найменування")["Кількість"].sum().sort_values(ascending=False)
 
+    return line_one
+#Функція для отримання згрупованих препаратів 2 лінії
+def line_two_df (df):
+    line_two = df[df["Лінія"] == "Лінія 2"].groupby("Найменування")["Кількість"].sum().sort_values(ascending=False)
+
+    return line_two
 
 def show_data():
     # Перевірка, чи є дані
@@ -32,9 +41,15 @@ def show_data():
                 with col3:
                     st.write("ТОП-5 найбільших продаж області")
                     st.dataframe(first_filtered_df.groupby("Найменування")["Кількість"].sum().sort_values(ascending=False).head(5))
+                    st.write("Препарати першої ліній")
+                    st.dataframe(line_one_df(first_filtered_df), height=1122)
                 with col4:
                     st.write("ТОП-5 найменших продаж області")
                     st.dataframe(first_filtered_df.groupby("Найменування")["Кількість"].sum().sort_values().head(5))
+                    st.write("Препарати другої ліній")
+                    st.dataframe(line_two_df(first_filtered_df), height=737)
+                
+
 
             with col2:
                 second_selected_region = st.selectbox("Оберіть регіон:", df["Регіон"].unique(), key="second_region")
@@ -43,6 +58,10 @@ def show_data():
                 with col5:
                     st.write("ТОП-5 найбільших продаж області")
                     st.dataframe(second_filtered_df.groupby("Найменування")["Кількість"].sum().sort_values(ascending=False).head(5))
+                    st.write("Препарати першої ліній")
+                    st.dataframe(line_one_df(second_filtered_df), height=1122)
                 with col6:
                     st.write("ТОП-5 найменших продаж області")
                     st.dataframe(second_filtered_df.groupby("Найменування")["Кількість"].sum().sort_values().head(5))
+                    st.write("Препарати другої ліній")
+                    st.dataframe(line_two_df(second_filtered_df), height=737)
