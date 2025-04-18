@@ -29,20 +29,37 @@ selected = option_menu(
 if selected == "Завантаження":
     # Поле для введення посилання
     sheet_url = st.text_input("Вставте посилання на Google Таблицю:")
+    uploaded_file = st.file_uploader("Оберіть файл")
     load_button = st.button("Завантажити")
+
+    
     # Ініціалізуємо порожній DataFrame
     df = pd.DataFrame()
 
     if selected == "Завантаження":
-        if sheet_url and load_button:
+        if uploaded_file is not None:
+            if uploaded_file.name.endswith((".xlsx", ".xls")):
+                try:
+                    df = pd.read_excel(uploaded_file)
+                    st.success("Файл успішно завантажено!")
+                    df.columns = df.columns.str.replace(" ", "")  # Видалення пробілів
+                    st.session_state.df = df
+                except Exception as e:
+                    st.error(f"Помилка при зчитуванні файлу: {e}")
+            else:
+                st.error("Будь ласка, завантажте Excel-файл (.xlsx або .xls)")
+        elif sheet_url and load_button:
             df = load_data(sheet_url)
             if isinstance(df, str):
                 st.error(df)
                 df = pd.DataFrame()  # Скидаємо df у випадку помилки
             else:
-                st.success("Дані успішно завантажені!")
-                # Зберігаємо завантажені дані в session_state
+                st.success("Дані успішно завантажені з посилання!")
                 st.session_state.df = df
+
+    if not df.empty:
+        st.write("Колонки таблиці:", list(df.columns))
+
 elif selected == "Регіони":
     rerion_page.show_data()
 elif selected == "Місто":
