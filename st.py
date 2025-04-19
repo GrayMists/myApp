@@ -11,7 +11,9 @@ from streamlit_option_menu import option_menu
 import app_page.region_page as rerion_page
 import app_page.city_page as city_page
 
-from data_loader import load_data
+from data_loader import load_data, process_uploaded_excel
+
+
 
 with st.sidebar:
     selected = option_menu(
@@ -34,11 +36,7 @@ with st.sidebar:
         if uploaded_file is not None:
             if uploaded_file.name.endswith((".xlsx", ".xls")):
                 try:
-                    df = pd.read_excel(uploaded_file)
-                    st.success("Файл успішно завантажено!")
-                    df.columns = df.columns.str.replace(" ", "")  # Видалення пробілів
-                    excluded_columns = ["Adding", "ЄДРПОУ", "Юр.адресаклієнта"]
-                    df = df[df['Регіон'].isin(['24. Тернопіль', '10. Івано-Франк'])]
+                    df = process_uploaded_excel(uploaded_file)
                     st.session_state.df = df
                 except Exception as e:
                     st.error(f"Помилка при зчитуванні файлу: {e}")

@@ -27,3 +27,11 @@ def load_data(sheet_url):
         return df
     except Exception as e:
         return f"Помилка при завантаженні: {e}"
+    
+def process_uploaded_excel(file):
+    df = pd.read_excel(file)
+    st.success("Файл успішно завантажено!")
+    df.columns = df.columns.str.replace(" ", "")  # Видалення пробілів
+    excluded_columns = ["Adding", "ЄДРПОУ", "Юр.адресаклієнта"]
+    df = df[df['Регіон'].isin(['24. Тернопіль', '10. Івано-Франк'])]
+    return df
