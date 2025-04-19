@@ -29,9 +29,9 @@ def show_data():
         # Вибір регіону
         if "Регіон" not in df.columns:
             st.error("Для отримання даних треба ввести правильне посилання")
-            df["Регіон"] = df["Регіон"].apply(change_district_name)
             return
         else:
+            df["Регіон"] = df["Регіон"].apply(change_district_name)
             col1, col2 = st.columns(2)
 
             with col1:
