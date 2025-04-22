@@ -49,7 +49,7 @@ def show_data():
             pivot_ternopil_street = pd.pivot_table(
                 filtered_df,
                 values="Кількість",
-                index="Вулиця",
+                index=["Місто", "Вулиця"],
                 columns="Найменування",
                 aggfunc="sum"
             )
