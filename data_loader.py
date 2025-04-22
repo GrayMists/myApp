@@ -33,5 +33,7 @@ def process_uploaded_excel(file):
     st.success("Файл успішно завантажено!")
     df.columns = df.columns.str.replace(" ", "")  # Видалення пробілів
     excluded_columns = ["Adding", "ЄДРПОУ", "Юр.адресаклієнта"]
+    df = df.drop(columns=[col for col in excluded_columns if col in df.columns], errors="ignore")
     df = df[df['Регіон'].isin(['24. Тернопіль', '10. Івано-Франк'])]
+    
     return df
