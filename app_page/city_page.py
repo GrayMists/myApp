@@ -102,11 +102,17 @@ def show_data():
                 else:
                     filtered_pivot_ternipil_street = pivot_ternopil_street
 
-                st.write(filtered_pivot_ternipil_street.droplevel("Місто").fillna(0).reset_index.style
-                    .set_table_styles([
-                        {'selector': 'th.col1', 'props': [('width', '250px')]},  # задає ширину для колонки "Вулиця"
-                    ]))
-                st.write(filtered_pivot_ternipil_street.index.names)
+                st.write(filtered_pivot_ternipil_street.droplevel("Місто").fillna(0))
+                styled_df = (
+                filtered_pivot_ternipil_street
+                .droplevel("Місто")
+                .fillna(0)
+                .reset_index()
+                .style
+                .set_properties(subset=["Вулиця"], props=[("width", "150px")])
+                )
+
+                st.write(styled_df)
                 
                 
 
