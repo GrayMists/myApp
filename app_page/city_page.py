@@ -103,16 +103,17 @@ def show_data():
                     filtered_pivot_ternipil_street = pivot_ternopil_street
 
                 st.write(filtered_pivot_ternipil_street.droplevel("Місто").fillna(0))
-                styled_df = (
-                filtered_pivot_ternipil_street
-                .droplevel("Місто")
-                .fillna(0)
-                .reset_index()
-                .style
-                .set_properties(subset=["Вулиця"], props=[("width", "150px")])
-                )
+                # styled_df = (
+                # filtered_pivot_ternipil_street
+                # .droplevel("Місто")
+                # .fillna(0)
+                # .reset_index()
+                # .style
+                # .set_properties(subset=["Вулиця"], props=[("width", "250px")])
+                
+                # )
 
-                st.write(styled_df)
+                # st.write(styled_df)
                 
                 
 
