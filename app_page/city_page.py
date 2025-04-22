@@ -12,8 +12,10 @@ from data_cleaner import change_district_name
 
 def show_data():
     # Перевірка, чи є дані
-
-    df = st.cache_data(get_session_dataframe)()
+    if "df" not in st.session_state:
+        st.warning("Спочатку завантажте файл на сторінці 'Завантаження'")
+        return
+    df = st.session_state.df
     if df is not None:
         #Переконуємось, що всі назви колонок є рядками, та очищаємо від пробілів на початку і вкінці
         df.columns = df.columns.astype(str).str.strip()
@@ -28,16 +30,35 @@ def show_data():
         # Замініть існуючий фільтр
         filtered_df = prepare_filtered_data(df, selected_region)
     
-    st.write(filtered_df)
+    with st.expander("Натисни щоб побачить відфільтровану таблицію продаж", icon="⬇️"):
+        st.write(filtered_df)
     
-    col1, col2 = st.columns([1, 4])
+    mask = filtered_df["Територія"].str.contains("Теронопіль.заг", case=False, na=False) | (filtered_df["Територія"] == "")
+    if mask.any():
+        st.write("В даній таблиці наведено інфомацію по рподажаї які не вдалось розподілити до певної території")
+        st.write(filtered_df[mask])
+
+    col1, col2 = st.columns([3,4])
 
     with col1:
-        st.write("ТОП-5 найбільших продаж області")
-        st.dataframe(filtered_df.groupby("Найменування")["Кількість"].sum().sort_values(ascending=False).head(5), width=500)
-        st.write("ТОП-5 найменших продаж області")
-        st.dataframe(filtered_df.groupby("Найменування")["Кількість"].sum().sort_values().head(5), width=500)
+        col3, col4 = st.columns(2)
 
+        with col3:
+            st.write("ТОП-5 найбільших продаж області")
+            st.dataframe(filtered_df.groupby("Найменування")["Кількість"].sum().sort_values(ascending=False).head(5), width=500)
+        with col4:
+            st.write("ТОП-5 найменших продаж області")
+            st.dataframe(filtered_df.groupby("Найменування")["Кількість"].sum().sort_values().head(5), width=500)
+
+        st.write("Продажі по територіях")
+        pivot = filtered_df.pivot_table(
+            index="Найменування",
+            columns="Територія",
+            values="Кількість",
+            aggfunc="sum",
+            fill_value=0
+        )
+        st.write(pivot)
     with col2:
         # Створюємо список унікальних міст з колонки "Факт.місто"
         cities = filtered_df["Місто"].dropna().unique()
@@ -58,7 +79,7 @@ def show_data():
                 st.error("Індекс `pivot_ternopil_street` не є MultiIndex. Перевірте створення зведеної таблиці.")
             else:
                 # Мультивибір для міста
-                selected_cities = st.multiselect("Оберіть міста: (фільтр стосується тільки 'Зведена таблиця по містах та вулицях')", cities)
+                selected_cities = st.multiselect("Оберіть міста:", cities)
                 # Фільтруємо дані по вибраним містам
                 if selected_cities:
                     filtered_df_sku = filtered_df[filtered_df["Місто"].isin(selected_cities)].groupby("Найменування")["Кількість"].sum().reset_index()
@@ -81,16 +102,10 @@ def show_data():
                 else:
                     filtered_pivot_ternipil_street = pivot_ternopil_street
 
-                st.write(filtered_pivot_ternipil_street.fillna(0))
+                
+                st.write(filtered_pivot_ternipil_street.droplevel("Місто").fillna(0))
 
-                pivot = filtered_df.pivot_table(
-                    index="Найменування",
-                    columns="Територія",
-                    values="Кількість",
-                    aggfunc="sum",
-                    fill_value=0
-                )
-                st.write(pivot)
+                
 
                 # Перевертаємо, щоб товари були знизу вгору
                 pivot = pivot[::-1]
@@ -112,9 +127,4 @@ def show_data():
                 # Показуємо графік
                 st.pyplot(plt.gcf())
 
-    
-    mask = filtered_df["Територія"].str.contains("Теронопіль.заг", case=False, na=False)
-    if mask.any():
-        st.write("В даній таблиці наведено інфомацію по рподажаї які не вдалось розподілити до певної території")
-        st.write(filtered_df[mask])
     
