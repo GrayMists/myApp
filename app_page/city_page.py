@@ -76,7 +76,7 @@ def show_data():
                 # Створення та виведення зведеної таблиці по місту та вулицях для вибраних міст
                 if selected_cities:
                     filtered_pivot_ternipil_street = pivot_ternopil_street.loc[
-                        pivot_ternopil_street.index.get_level_values("Факт.місто").isin(selected_cities)
+                        pivot_ternopil_street.index.get_level_values("Місто").isin(selected_cities)
                     ]
                 else:
                     filtered_pivot_ternipil_street = pivot_ternopil_street
