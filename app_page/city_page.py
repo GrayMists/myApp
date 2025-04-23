@@ -29,7 +29,7 @@ def show_data():
         # Замініть існуючий фільтр
         filtered_df = prepare_filtered_data(df, selected_region)
     
-    with st.expander("Натисни щоб побачить відфільтровану таблицію продаж", icon="⬇️"):
+    with st.expander("Натисни щоб побачіть відфільтровану таблицю продаж", icon="⬇️"):
         st.write(filtered_df)
     
     mask = filtered_df["Територія"].str.contains("Теронопіль.заг", case=False, na=False) | (filtered_df["Територія"] == "")
@@ -61,6 +61,7 @@ def show_data():
     with col2:
         # Створюємо список унікальних міст з колонки "Факт.місто"
         cities = filtered_df["Місто"].dropna().unique()
+        mr = filtered_df["Територія"].dropna().unique()
 
         if cities.size == 0:
             st.warning("Немає міст для вибору.")
@@ -69,7 +70,7 @@ def show_data():
             pivot_ternopil_street = pd.pivot_table(
                 filtered_df,
                 values="Кількість",
-                index=["Місто", "Вулиця"],
+                index=["Територія","Місто", "Вулиця"],
                 columns="Найменування",
                 aggfunc="sum"
             )
@@ -79,11 +80,17 @@ def show_data():
             else:
                 # Мультивибір для міста
                 selected_cities = st.multiselect("Оберіть міста:", cities)
+                selected_mr = st.multiselect("Оберіть територію:", mr)
                 # Фільтруємо дані по вибраним містам
                 if selected_cities:
-                    filtered_df_sku = filtered_df[filtered_df["Місто"].isin(selected_cities)].groupby("Найменування")["Кількість"].sum().reset_index()
+                    filtered_df_sku = filtered_df[filtered_df["Місто"].isin(selected_cities)]
                 else:
-                    filtered_df_sku = filtered_df.groupby("Найменування")["Кількість"].sum().reset_index()
+                    filtered_df_sku = filtered_df
+
+                if selected_mr:
+                    filtered_df_sku = filtered_df_sku[filtered_df_sku["Територія"].isin(selected_mr)]
+
+                filtered_df_sku = filtered_df_sku.groupby("Найменування")["Кількість"].sum().reset_index()
 
                 # Виводимо відфільтровані та згруповані дані
                 st.write(filtered_df_sku.style
@@ -93,15 +100,17 @@ def show_data():
                     .hide(axis='index')
                 )
 
-                # Створення та виведення зведеної таблиці по місту та вулицях для вибраних міст
-                if selected_cities:
-                    filtered_pivot_ternipil_street = pivot_ternopil_street.loc[
-                        pivot_ternopil_street.index.get_level_values("Місто").isin(selected_cities)
+
+                # Створення та виведення зведеної таблиці по місту та вулицях для вибраних міст і територій
+                if selected_cities or selected_mr:
+                    filtered_pivot_ternopil_street = pivot_ternopil_street.loc[
+                        pivot_ternopil_street.index.get_level_values("Місто").isin(selected_cities if selected_cities else cities) &
+                        pivot_ternopil_street.index.get_level_values("Територія").isin(selected_mr if selected_mr else mr)
                     ]
                 else:
-                    filtered_pivot_ternipil_street = pivot_ternopil_street
+                    filtered_pivot_ternopil_street = pivot_ternopil_street
 
-                st.write(filtered_pivot_ternipil_street.droplevel("Місто").fillna(0))
+                st.write(filtered_pivot_ternopil_street.droplevel("Місто").droplevel("Територія").fillna(0))
 
 
                 # Перевертаємо, щоб товари були знизу вгору
