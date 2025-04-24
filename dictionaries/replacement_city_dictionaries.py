@@ -55,5 +55,6 @@ replace_ternopil_city_dict = {
 
 
 replace_frankivsk_city_dict = {
+    "Івано-Франківськаобл.,м.Долина,пр-тНезалежності,3-а":""
     
 }
