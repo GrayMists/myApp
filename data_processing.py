@@ -6,7 +6,7 @@ from dictionaries.dictionary_to_clear import (
     remove_values_from_ternopil,
     remove_values_from_frankivsk,
 )
-from dictionaries.replacement_city_dictionaries import replace_ternopil_city_dict
+from dictionaries.replacement_city_dictionaries import replace_ternopil_city_dict, replace_frankivsk_city_dict
 from dictionaries.replacement_street_dictionaries import replace_ternopil_street_dict
 from dictionaries.mr import territory_mr, street_territory_2
 from products import products_dict
@@ -34,11 +34,12 @@ def process_filtered_df(df, region_name):
         street_mr = street_territory_2
     elif region_name == "м.Івано-Франківськ":
         region_values = remove_values_from_frankivsk
-        city_values = {}
+        city_values = replace_frankivsk_city_dict
         street_value = {}
         street_mr = {}   
 
     col = "Факт.адресадоставки"
+    
     df = clean_delivery_address(df, col, region_name, region_values, city_values, street_value, territory_mr, street_mr, products_dict)
     
     return df

@@ -6,6 +6,7 @@ from data_processing import (
     prepare_filtered_data)
 
 from data_cleaner import change_district_name
+from dictionaries.dictionary_to_clear import remove_values_from_frankivsk
 
 
 
@@ -132,5 +133,7 @@ def show_data():
 
                 # Показуємо графік
                 st.pyplot(plt.gcf())
+
+    st.write("region_values (Frankivsk):", remove_values_from_frankivsk)
 
     

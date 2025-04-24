@@ -52,3 +52,8 @@ replace_ternopil_city_dict = {
     "м.Копиченці": "м.Копичинці,",
     "ОЗЕРЯНИ": "с.Озеряни,"
  }
+
+
+replace_frankivsk_city_dict = {
+    
+}
