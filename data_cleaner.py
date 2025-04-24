@@ -93,7 +93,7 @@ def change_district_name(region: str):
 def clean_delivery_address(df, column, region_name, region_values, city_values, street_value, territory_mr, street_mr, products_dict):
     df[column] = (
         df[column]
-        .apply(remove_unwanted, region_values=region_values)
+        .apply(remove_unwanted, region_values=region_values) 
         .apply(replacement_city, city_values=city_values)
         .str.replace(" ", "")
         .apply(replacement_street, street_values=street_value)
