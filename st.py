@@ -10,6 +10,7 @@ import pandas as pd
 from streamlit_option_menu import option_menu
 import app_page.region_page as rerion_page
 import app_page.city_page as city_page
+import app_page.sales as sales
 
 from data_loader import load_data, process_uploaded_excel
 
@@ -18,7 +19,7 @@ from data_loader import load_data, process_uploaded_excel
 with st.sidebar:
     selected = option_menu(
         menu_title=None,
-        options=["Завантаження", "Регіони", "Місто"],
+        options=["Завантаження", "Регіони", "Місто", "Прогноз"],
         icons=["cloud-upload","back" ,"bar-chart"],
         menu_icon="cast",
         default_index=0,
@@ -80,3 +81,5 @@ if selected == "Регіони":
     rerion_page.show_data()
 elif selected == "Місто":
     city_page.show_data()
+elif selected == "Прогноз":
+    sales.show_data()
