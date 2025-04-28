@@ -49,7 +49,7 @@ def show_data():
         st.write(f"Мінімально можливо: {confidence_interval[0]:.2f}")
         st.write(f"Максимально можливо: {confidence_interval[1]:.2f}")
 
-       st.write("Діграма")
+        st.write("Діграма")
 
         # Візуалізація розподілу середніх бутстрепів
         fig, ax = plt.subplots()
