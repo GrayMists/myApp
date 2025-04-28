@@ -81,7 +81,7 @@ def show_data():
             else:
                 # Мультивибір для міста
                 selected_cities = st.multiselect("Оберіть міста:", cities)
-                selected_mr = st.multiselect("Оберіть територію:", mr)
+                selected_mr = st.multiselect("Оберіть територію(якщо вибрано місто Теронпіль):", mr)
                 # Фільтруємо дані по вибраним містам
                 if selected_cities:
                     filtered_df_sku = filtered_df[filtered_df["Місто"].isin(selected_cities)]
