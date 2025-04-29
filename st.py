@@ -11,6 +11,8 @@ from streamlit_option_menu import option_menu
 import app_page.region_page as rerion_page
 import app_page.city_page as city_page
 import app_page.sales as sales
+import app_page.sidebar_region as sidebar_region
+import app_page.sidebar_city as sidebar_city
 
 from data_loader import load_data, process_uploaded_excel
 
@@ -54,6 +56,10 @@ with st.sidebar:
 
         if not df.empty:
             st.write("Колонки таблиці:", list(df.columns))
+    elif selected == "Регіони":
+        sidebar_region.show_data()
+    elif selected == "Місто":
+        sidebar_city.show_sidebar_data()
 
 if selected == "Завантаження":
     show_welcome = True
