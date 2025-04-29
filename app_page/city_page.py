@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import plotly.express as px
 
 from data_processing import (
     prepare_filtered_data)
@@ -114,26 +115,21 @@ def show_data():
                 st.write(filtered_pivot_ternopil_street.droplevel("Місто").droplevel("Територія").fillna(0))
 
 
-                # Перевертаємо, щоб товари були знизу вгору
-                pivot = pivot[::-1]
+    group_teemap_df = filtered_df.groupby(["Територія","Найменування"])["Кількість"].sum().reset_index()
+    fig = px.treemap(
+    group_teemap_df,
+    path=["Територія",'Найменування'],
+    values='Кількість',
+    color='Кількість',
+    color_continuous_scale='speed'
+    )
+    fig.update_traces(hovertemplate='<b>%{label}</b><br>Кількість: %{value}')
+ 
+    fig.update_layout(
+        margin=dict(t=20, l=20, r=20, b=20),
+        title='Продажі продуктів (розмір = обсяг)'
+        #hovertemplate='<b>%{label}</b><br>Сума рахунку: %{value}'
+    )
 
-                # Побудова графіка
-                pivot.plot(kind="barh", stacked=False, figsize=(4, 10), width=0.8)
-                fig = plt.gcf()
-                ax = plt.gca()
-                fig.patch.set_facecolor('#0b4b5c')  # фон всієї області
-                ax.set_facecolor('#0b4b5c')         # фон поля побудови
-
-                plt.title("Продажі товарів та територіях", color="#fff")
-                plt.xlabel("Кількість", color="#fff")
-                plt.ylabel("Товар", color="#fff")
-
-                # Зменшення шрифту легенди
-                plt.legend(fontsize=8)
-
-                # Показуємо графік
-                st.pyplot(plt.gcf())
-
-    st.write("region_values (Frankivsk):", remove_values_from_frankivsk)
-
-    
+    st.subheader("Treemap продажів")
+    st.plotly_chart(fig, use_container_width=True)
