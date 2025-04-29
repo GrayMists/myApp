@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
+import plotly.graph_objects as go
+import plotly.express as px
 
 from data_processing import (
     get_session_dataframe, 
@@ -65,3 +66,31 @@ def show_data():
                     st.dataframe(second_filtered_df.groupby("Найменування")["Кількість"].sum().sort_values().head(5))
                     st.write("Препарати другої ліній")
                     st.dataframe(line_two_df(second_filtered_df), height=737)
+                
+                
+
+
+                
+                
+    
+    treemap_selected_region = st.selectbox("Оберіть регіон:", df["Регіон"].unique(), key="treemap")
+    treemap_filtered_df = prepare_filtered_data(df, treemap_selected_region)
+    df_grouped = treemap_filtered_df.groupby('Найменування', as_index=False)['Кількість'].sum()
+
+    fig = px.treemap(
+    df_grouped,
+    path=['Найменування'],
+    values='Кількість',
+    color='Кількість',
+    color_continuous_scale='speed'
+    )
+    fig.update_traces(hovertemplate='<b>%{label}</b><br>Кількість: %{value}')
+ 
+    fig.update_layout(
+        margin=dict(t=20, l=20, r=20, b=20),
+        title='Продажі продуктів (розмір = обсяг)'
+        #hovertemplate='<b>%{label}</b><br>Сума рахунку: %{value}'
+    )
+
+    st.subheader("Treemap продажів")
+    st.plotly_chart(fig, use_container_width=True)
