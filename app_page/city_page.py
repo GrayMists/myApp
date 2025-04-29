@@ -127,8 +127,9 @@ def show_data():
  
     fig.update_layout(
         margin=dict(t=20, l=20, r=20, b=20),
-        title='Продажі продуктів (розмір = обсяг)'
-        #hovertemplate='<b>%{label}</b><br>Сума рахунку: %{value}'
+        title='Продажі продуктів (розмір = обсяг)',
+        paper_bgcolor='#002b36',
+        plot_bgcolor='#002b36'
     )
 
     st.subheader("Treemap продажів")
