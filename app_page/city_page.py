@@ -119,16 +119,15 @@ def show_data():
     path=["Територія",'Найменування'],
     values='Кількість',
     color='Кількість',
-    color_continuous_scale='speed'
+    color_continuous_scale='RdBu'
     )
     fig.update_traces(hovertemplate='<b>%{label}</b><br>Кількість: %{value}')
  
     fig.update_layout(
-        margin=dict(t=20, l=20, r=20, b=20),
-        title='Продажі продуктів (розмір = обсяг)',
-        paper_bgcolor='#002b36',
-        #plot_bgcolor='#002b36'
+        margin=dict(t=30, l=5, r=5, b=5),
+        title='Розмір та колір відповідає кількості проданих упаковок',
+        #paper_bgcolor='#fff',
     )
 
-    st.subheader("Treemap продажів")
+
     st.plotly_chart(fig, use_container_width=True)
