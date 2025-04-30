@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd 
 
 # Ініціалізація df, якщо він ще не існує
 if 'df' not in st.session_state:
